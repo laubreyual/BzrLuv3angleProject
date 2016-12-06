@@ -156,7 +156,6 @@ public class AgawanBaseMain{
 		playButton.addActionListener(new ActionListener(){	//starts the game
 			public void actionPerformed(ActionEvent e){
 				try{
-					System.out.println("HELLO");
 					gameStart(menu);
 				}
 				catch(Exception ex){}
@@ -223,56 +222,26 @@ public class AgawanBaseMain{
 		This method contains the game proper. Singleton is also used in the method so that there will be only one game frame opened even if the
 		play button is clicked multiple times.
 	*/
-		System.out.println("what");
 		AgawanBaseFrame.removeContents();
 		AgawanBaseFrame frame = AgawanBaseFrame.getInstance();
 		BufferedImage image = ImageIO.read(new File("pictures/diamond.png"));
 		frame.setIconImage(image);
 
-		String b = null;
-		BufferedReader reader = new BufferedReader(new FileReader("template/template.txt"));
-
-		//Container mainContainer = new Container();
-		//frame.setContentPane(mainContainer);
-		//mainContainer.setPreferredSize(new Dimension(1000,700));
-		//mainContainer.setLayout(new BorderLayout());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//Container placeContainer = new Container();
-		//placeContainer.setLayout(new GridLayout(21,21));
-		JPanel topPanel = new JPanel();
-		topPanel.setLayout(new GridLayout(1,3));
-		//JPanel chatPanel = new JPanel();
-		//chatPanel.setLayout(new FlowLayout());
-		//JLabel chat = new JLabel("INSERT CHAT HERE");
+		
+		String temp;		//will hold input for number of players
+		int numberOfPlayers;
+		String gameServer;
+		String playerName;
 
-		//GameTimer timer = new GameTimer(180, frame, menu);
-		//final Thread timerThread = new Thread(timer);
+		temp = JOptionPane.showInputDialog("Enter number of players (preferably even): ");
+		numberOfPlayers = Integer.parseInt(temp);
+		gameServer = JOptionPane.showInputDialog("Enter game server: ");
+		playerName = JOptionPane.showInputDialog("Enter your name: ");
 
-		//final AgawanBaseWorld[][] world = new AgawanBaseWorld[21][21];
-		GameServer gw = new GameServer(2);
-		CircleWars cw = new CircleWars("localhost", "player1");
-		CircleWars cw1 = new CircleWars("localhost", "player2"); 
-		/*int j;
-		for(j=0; j<21; j++){
-			//file reading
-			b = reader.readLine();
-
-			if(b != null){
-				int i;
-				for(i=0; i<b.length(); i++){
-					world[j][i] = new AgawanBaseWorld(b.charAt(i));
-
-					placeContainer.add(world[j][i]);
-				}
-			}
-		}*/
-		topPanel.add(new JLabel(" "));
-		//topPanel.add(timer);
-		//mainContainer.add(placeContainer, BorderLayout.CENTER);
-		//mainContainer.add(topPanel, BorderLayout.NORTH);
-		//mainContainer.add(chatPanel, BorderLayout.SOUTH);
-		reader.close();
-
+		AgawanBaseGameServer gs = new AgawanBaseGameServer(numberOfPlayers);
+		AgawanBaseGamePlay gp = new AgawanBaseGamePlay(gameServer, playerName);
+	
 		frame.pack();
 		menu.setVisible(false);
 		frame.setVisible(true);
